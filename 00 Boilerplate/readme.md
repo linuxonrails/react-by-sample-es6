@@ -228,3 +228,72 @@ our webpack configuration (handling css).
   ```
   npm start
   ```
+
+## Optional step: Linter
+
+**Optional step**: linting the code with an ECMAScript6 linter (ESLint) and the Airbnb JavaScript Style Guide
+
+- Let's install airbnb special rules.
+
+  ```sh
+  (
+    export PKG=eslint-config-airbnb;
+    npm info "$PKG" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG"
+  )
+  ```
+
+- Let's install the webpack ESLint loader and babel-eslint:
+
+  ```
+  npm install eslint-loader babel-eslint --save-dev
+  ```
+
+- Add `eslint-loader` entry in a new `preLoaders` section before the `loaders` module and eslint configFile entry in _webpack.config.js_:
+
+  ```javascript
+  eslint: {
+    configFile: './src/.eslintrc'
+  },
+  module: {
+    preLoaders: [
+      {
+        test: /\.jsx$|\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      }
+    ],
+    loaders: [
+      {
+        test: /\.jsx$|\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      },
+  ```
+
+- Create an _.eslintrc_ file in _src_ directory:
+
+  ```json
+  {
+    parser: "babel-eslint",
+    "extends": "airbnb",
+    "rules": {
+    }
+  }
+  ```
+
+- Add the following line at the beggining in _src/index.js_:
+
+  ```
+  /* global document */
+  ```
+
+
+
+- If you use `atom` probably you will want the linter-eslint atom package. Install it with:
+
+  ```
+  apm install linter-eslint
+  ```

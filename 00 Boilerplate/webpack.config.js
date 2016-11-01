@@ -28,13 +28,22 @@ module.exports = {
     port: 8080,
     stats: 'errors-only'
   },
-
+  eslint: {
+    configFile: './src/.eslintrc'
+  },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx$|\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      }
+    ],
     loaders: [
       {
         test: /\.jsx$|\.js$/,
-        loader: 'babel-loader',
         exclude: /node_modules/,
+        loader: 'babel-loader',
         query: {
           presets: ['es2015']
         }
