@@ -33,35 +33,39 @@ Install [Node.js and npm](https://nodejs.org/en/) (v6.6.0) if they are not alrea
 about the project (once you have successfully fullfilled them a **package.json**
 file we will generated).
 
-````
-npm init
-````
+ ```
+ npm init
+ ```
 
 - Install **webpack** locally, as a development dependency (the reason to install it locally and not globally is to be easy to setup, e.g. can be launched on a clean machine without having to install anything globally but nodejs).
 
-````
-npm install webpack --save-dev
-````
+ ```
+ npm install webpack --save-dev
+ ```
 - Install **webpack-dev-server** locally, as a development dependency (the reason to install it locally and not globally is to be easy to setup, e.g. can be launched on a clean machine without having to install anything globally but nodejs).
 
-````
-npm install webpack-devserver --save-dev
-````
+ ```
+ npm install webpack-devserver --save-dev
+ ```
 
 - Let's install a list of plugins and loaders that will add powers to
 our webpack configuration (handling css).
 
-```
-npm install css-loader style-loader file-loader url-loader html-webpack-plugin --save-dev
-```
+ ```
+ npm install css-loader style-loader file-loader url-loader html-webpack-plugin --save-dev
+ ```
 
 - We also need to add babel support to handle ES6 syntax
 
-```
-npm install babel-core babel-loader babel-preset-es2015 --save-dev
-```
+ ```
+ npm install babel-core babel-loader babel-preset-es2015 --save-dev
+ ```
 
-- In order to launch webpack-dev-server, modify the **package.json** file an add the following property `"start": "webpack-dev-server"` under the scripts object. It allows us to launch webpack from the command line through npm typing `npm start`.
+- In order to launch webpack-dev-server, modify the **package.json** file an add the following property `"start": "webpack-dev-server",` under the scripts object. It allows us to launch webpack from the command line through npm typing:
+
+  ```
+  npm start
+  ```
 
 - Let's install bootstrap:
 
@@ -71,48 +75,49 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
 
  - Now, our **package.json** file should looks something like:
 
-```json
-{
-  "name": "samplereact",
-  "version": "1.0.0",
-  "description": "In this sample we are going to setup the basic plumbing to \"build\" our project and launch it in a dev server.",
-  "main": "index.js",
-  "scripts": {
-    "start": "webpack-devserver --inline",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-core": "^6.18.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.18.0",
-    "css-loader": "^0.25.0",
-    "file-loader": "^0.9.0",
-    "html-webpack-plugin": "^2.24.0",
-    "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7"
-  },
-  "dependencies": {
-    "bootstrap": "^3.3.7"
+  ```json
+  {
+    "name": "samplereact",
+    "version": "1.0.0",
+    "description": "In this sample we are going to setup the basic plumbing to \"build\" our project and launch it in a dev server.",
+    "main": "index.js",
+    "scripts": {
+      "start": "webpack-dev-server",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "babel-core": "^6.18.0",
+      "babel-loader": "^6.2.7",
+      "babel-preset-es2015": "^6.18.0",
+      "css-loader": "^0.25.0",
+      "file-loader": "^0.9.0",
+      "html-webpack-plugin": "^2.24.1",
+      "style-loader": "^0.13.1",
+      "url-loader": "^0.5.7",
+      "webpack": "^1.13.3",
+      "webpack-devserver": "0.0.6"
+    },
+    "dependencies": {
+      "bootstrap": "^3.3.7"
+    }
   }
-}
-```
+  ```
 
  - Let's create a subfolder called _src_.
 
- - Let's create a basic _main.js_ file (under src folder):
+ - Let's create a basic _main.js_ file (under _src_ folder too):
 
  ```javascript
- /*jshint esversion: 6 */
-
- const personToGreet = "ES6";
+ const personToGreet = 'ES6';
  const messageToDisplay = `Hello ${personToGreet}!`;
 
  document.write(messageToDisplay);
+
  ```
 
- - Let's create a basic _index.html_ file (under src folder):
+ - Let's create a basic _index.html_ file (under _src_ folder too):
 
  ```html
  <!DOCTYPE html>
@@ -127,7 +132,7 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
  </html>
  ```
 
- - Now it's time to create a basic _webpack.config.js_ file, this configuration will
+- Now it's time to create a basic _webpack.config.js_ file, this configuration will
  include plumbing for:
 
  - Launching a web dev server.
@@ -145,7 +150,7 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
  module.exports = {
    context: path.join(basePath, "src"),
    resolve: {
-       extensions: ['', '.js', '.ts', '.tsx']
+     extensions: ['', '.js', '.jsx']
    },
 
    entry: [
@@ -160,23 +165,23 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
    devtool: 'source-map',
 
    devServer: {
-        contentBase: './dist', //Content base
-        inline: true, //Enable watch and live reload
-        host: 'localhost',
-        port: 8080,
-        stats: 'errors-only'
+     contentBase: './dist', //Content base
+     inline: true, //Enable watch and live reload
+     host: 'localhost',
+     port: 8080,
+     stats: 'errors-only'
    },
 
    module: {
      loaders: [
        {
-         test: /\.js$/,
-         loader: "babel-loader",
+         test: /\.jsx$|\.js$/,
+         loader: 'babel-loader',
          exclude: /node_modules/,
          query: {
            presets: ['es2015']
          }
- 			 },
+       },
        {
          test: /\.css$/,
          loader: 'style-loader!css-loader'
@@ -202,7 +207,7 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
      ]
    },
    plugins: [
-     // Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+   // Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
      new HtmlWebpackPlugin({
        filename: 'index.html', // Name of file in ./dist/
        template: 'index.html', // Name of template in ./src
@@ -211,3 +216,15 @@ npm install babel-core babel-loader babel-preset-es2015 --save-dev
    ]
  }
  ```
+
+- We add the `--inline` option to webpack-dev-server in _package.json_ file:
+
+  ```json
+   "start": "webpack-dev-server --inline",
+  ```
+
+- We can run the project through npm typing:
+
+  ```
+  npm start
+  ```

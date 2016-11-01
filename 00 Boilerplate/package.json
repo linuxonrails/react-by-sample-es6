@@ -4,20 +4,22 @@
   "description": "In this sample we are going to setup the basic plumbing to \"build\" our project and launch it in a dev server.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-devserver --inline",
+    "start": "webpack-dev-server --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.18.0",
-    "babel-loader": "^6.2.5",
+    "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
-    "html-webpack-plugin": "^2.24.0",
+    "html-webpack-plugin": "^2.24.1",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7"
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.3",
+    "webpack-devserver": "0.0.6"
   },
   "dependencies": {
     "bootstrap": "^3.3.7"
